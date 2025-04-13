@@ -12,7 +12,6 @@ export default function RoomCapacitySelect({
 
   return (
     <View style={{ marginBottom: 16 }}>
-      <Text style={{ marginBottom: 8 }}>총 인원</Text>
       <View style={{ borderWidth: 1, borderColor: "#ccc", borderRadius: 6 }}>
         <Picker
           selectedValue={value}
