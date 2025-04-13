@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import RoomCard from "../components/RoomCard";
+import CreateRoomButton from "../components/CreateRoomButton";
 
 type Room = {
   id: string;
@@ -62,9 +63,8 @@ export default function RoomListScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.createButton} onPress={handleCreateRoom}>
-        <Text style={styles.createButtonText}>+ 새 책방 만들기</Text>
-      </TouchableOpacity>
+      <CreateRoomButton onPress={handleCreateRoom} />
+
       <FlatList
         data={sortedRooms}
         keyExtractor={(item) => item.id}
