@@ -1,3 +1,3 @@
-import HomeScreen from "@/features/home/ui/HomeScreen";
+import RoomListScreen from "@/features/roomList/ui/RoomListScreen";
 
-export default HomeScreen;
+export default RoomListScreen;
