@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import RoomCard from "../components/RoomCard";
 
 type Room = {
   id: string;
@@ -68,19 +69,7 @@ export default function RoomListScreen() {
         data={sortedRooms}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={styles.cardTop}>
-              <Text style={styles.status}>{item.status}</Text>
-              <TouchableOpacity onPress={() => togglePin(item.id)}>
-                <Text style={styles.pin}>{item.isPinned ? "📌" : "📍"}</Text>
-              </TouchableOpacity>
-            </View>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.schedule}>{item.schedule}</Text>
-            <Text style={styles.members}>
-              {item.members}명 / {item.max}명
-            </Text>
-          </View>
+          <RoomCard room={item} onTogglePin={togglePin} />
         )}
       />
     </View>
