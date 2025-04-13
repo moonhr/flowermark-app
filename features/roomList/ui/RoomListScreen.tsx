@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "expo-router";
 import {
   View,
   Text,
@@ -41,6 +42,7 @@ const dummyRooms: Room[] = [
 ];
 
 export default function RoomListScreen() {
+  const router = useRouter();
   const [rooms, setRooms] = useState<Room[]>(dummyRooms);
 
   const handleCreateRoom = () => {
@@ -63,7 +65,7 @@ export default function RoomListScreen() {
 
   return (
     <View style={styles.container}>
-      <CreateRoomButton onPress={handleCreateRoom} />
+      <CreateRoomButton onPress={() => router.push("/create-room")} />
 
       <FlatList
         data={sortedRooms}
