@@ -71,7 +71,16 @@ export default function RoomListScreen() {
         data={sortedRooms}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <RoomCard room={item} onTogglePin={togglePin} />
+          <TouchableOpacity
+            onPress={() =>
+              router.push({
+                pathname: "/room-detail/[id]",
+                params: { id: item.id, name: item.name },
+              })
+            }
+          >
+            <RoomCard room={item} onTogglePin={togglePin} />
+          </TouchableOpacity>
         )}
       />
     </View>
