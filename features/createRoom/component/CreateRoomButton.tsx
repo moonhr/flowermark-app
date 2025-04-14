@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { TouchableOpacity, Text } from "react-native";
 
 export default function CreateRoomButton({
@@ -5,6 +6,8 @@ export default function CreateRoomButton({
 }: {
   isEnabled: boolean;
 }) {
+  const router = useRouter();
+
   return (
     <TouchableOpacity
       style={{
@@ -13,7 +16,7 @@ export default function CreateRoomButton({
         borderRadius: 8,
       }}
       disabled={!isEnabled}
-      onPress={() => console.log("책방 생성")}
+      onPress={() => router.back()}
     >
       <Text style={{ textAlign: "center", color: "#fff" }}>방 생성하기</Text>
     </TouchableOpacity>
