@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import MyPageModal from "../component/MyPageModal";
+import MyPageEditModal from "../component/MyPageEditModal";
 
 const readBooks = [
   {
@@ -34,6 +35,7 @@ const readBooks = [
 
 export default function MyPageScreen() {
   const [selected, setSelected] = useState<(typeof readBooks)[0] | null>(null);
+  const [editVisible, setEditVisible] = useState(false);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -41,7 +43,7 @@ export default function MyPageScreen() {
         <View style={styles.profileImage} />
         <Text style={styles.nickname}>유진</Text>
         <Text style={styles.account}>카카오 계정 연결됨</Text>
-        <TouchableOpacity style={styles.editButton}>
+        <TouchableOpacity style={styles.editButton} onPress={() => setEditVisible(true)}>
           <Text style={styles.editButtonText}>내 정보 수정하기</Text>
         </TouchableOpacity>
       </View>
@@ -58,6 +60,7 @@ export default function MyPageScreen() {
       </View>
 
       <MyPageModal book={selected} onClose={() => setSelected(null)} />
+      <MyPageEditModal visible={editVisible} onClose={() => setEditVisible(false)} />
     </ScrollView>
   );
 }
