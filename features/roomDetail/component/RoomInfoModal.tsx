@@ -133,5 +133,6 @@ const styles = StyleSheet.create({
     top: 16,
     right: 16,
     zIndex: 1,
+    fontSize: 20,
   },
 });
