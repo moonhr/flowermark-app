@@ -106,12 +106,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    gap: 16,
+    gap: 2,
   },
   bookCard: {
-    width: "48%",
+    width: "25%",
     aspectRatio: 0.75,
     backgroundColor: "#a1a1aa",
-    borderRadius: 12,
+    borderRadius: 2,
   },
 });

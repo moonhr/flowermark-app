@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    gap: 16,
+    gap: 4,
   },
   flowerMark: {
     width: "48%",
