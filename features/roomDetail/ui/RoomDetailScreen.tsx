@@ -6,6 +6,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import { useState } from "react";
+import RoomInfoModal from "../component/RoomInfoModal";
 
 const dummyRoom = {
   name: "봄날의 독서방",
@@ -34,6 +36,7 @@ export default function BookRoomDetailScreen() {
   const { id, name } = useLocalSearchParams();
   const roomId = id as string;
   const roomName = name as string;
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -57,9 +60,18 @@ export default function BookRoomDetailScreen() {
         ))}
       </View>
 
-      <TouchableOpacity style={styles.infoButton}>
+      <TouchableOpacity
+        style={styles.infoButton}
+        onPress={() => setIsModalVisible(true)}
+      >
         <Text style={styles.infoButtonText}>방 정보 확인</Text>
       </TouchableOpacity>
+
+      <RoomInfoModal
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        isHost={true}
+      />
     </ScrollView>
   );
 }
