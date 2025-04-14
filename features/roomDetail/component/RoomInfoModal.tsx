@@ -54,6 +54,9 @@ export default function RoomInfoModal({
         <Animated.View
           style={[styles.modalContent, { transform: [{ translateX }] }]}
         >
+          <Text style={styles.closeButton} onPress={handleClose}>
+            X
+          </Text>
           <ScrollView>
             <Text style={styles.title}>{roomName}</Text>
             <Text style={styles.text}>{roomStatus}</Text>
@@ -77,15 +80,13 @@ export default function RoomInfoModal({
               date="2025.3.18 ~"
             />
             <BookScheduleCard title="자본주의" label="완료된 책" date="완료" />
-
+            <Button title="책 교환 일정 수정 요청하기" onPress={() => {}} />
             {isHost && (
               <>
                 <Button title="방 정보 수정하기" onPress={() => {}} />
                 <Button title="방 삭제하기" onPress={() => {}} color="red" />
               </>
             )}
-            <Button title="책 교환 일정 수정 요청하기" onPress={() => {}} />
-            <Button title="닫기" onPress={handleClose} />
           </ScrollView>
         </Animated.View>
       </View>
@@ -126,5 +127,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 12,
     marginBottom: 12,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 16,
+    right: 16,
+    zIndex: 1,
   },
 });
