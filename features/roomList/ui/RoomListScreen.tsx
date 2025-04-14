@@ -75,7 +75,12 @@ export default function RoomListScreen() {
             onPress={() =>
               router.push({
                 pathname: "/room-detail/[id]",
-                params: { id: item.id, name: item.name },
+                params: {
+                  id: item.id,
+                  name: item.name,
+                  status: item.status,
+                  schedule: item.schedule,
+                },
               })
             }
           >
