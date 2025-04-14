@@ -16,7 +16,7 @@ export default function TabLayout() {
           } else if (route.name === "mypage") {
             iconName = "person-outline";
           } else if (route.name === "flowerMarks") {
-            iconName = "book-outline";
+            iconName = "leaf-outline";
           }
 
           return <Ionicons name={iconName as any} size={size} color={color} />;
@@ -25,10 +25,15 @@ export default function TabLayout() {
           if (route.name === "index") return "홈";
           if (route.name === "calendar") return "캘린더";
           if (route.name === "mypage") return "마이페이지";
-          if (route.name === "books") return "책";
+          if (route.name === "flowerMarks") return "꽃갈피";
           return route.name;
         })(),
       })}
-    />
+    >
+      <Tabs.Screen name="index" />
+      <Tabs.Screen name="flowerMarks" />
+      <Tabs.Screen name="calendar" />
+      <Tabs.Screen name="mypage" />
+    </Tabs>
   );
 }
