@@ -15,7 +15,7 @@ export default function TabLayout() {
             iconName = "calendar-outline";
           } else if (route.name === "mypage") {
             iconName = "person-outline";
-          } else if (route.name === "books") {
+          } else if (route.name === "flowerMarks") {
             iconName = "book-outline";
           }
 
