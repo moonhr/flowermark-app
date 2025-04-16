@@ -44,7 +44,7 @@ export default function RoomCard({
 
       {/* 현재 인원 / 최대 인원 */}
       <Text style={styles.members}>
-        {room.members}명 / {room.capacity}명
+        {room.members.length}명 / {room.capacity}명
       </Text>
     </View>
   );
