@@ -1,3 +1,14 @@
+/**
+ * @yuxincxoi
+ * * 책방 목록 화면에서 책방 정보를 카드 형태로 렌더링하는 컴포넌트입니다.
+ * 책방 상태, 이름, 일정, 인원 수를 표시하고 핀 버튼으로 상단 고정 여부를 토글할 수 있습니다.
+ *
+ * @module RoomCard
+ * @param {Room} room 책방 정보 객체
+ * @param {(id: string) => void} onTogglePin 핀 버튼 클릭 시 호출되는 콜백 함수
+ * @returns {JSX.Element} 책방 정보를 담은 카드 컴포넌트
+ */
+
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 type Room = {
@@ -20,13 +31,21 @@ export default function RoomCard({
   return (
     <View style={styles.card}>
       <View style={styles.cardTop}>
+        {/* 책방 상태 */}
         <Text style={styles.status}>{room.status}</Text>
+
+        {/* 핀 아이콘 버튼 */}
         <TouchableOpacity onPress={() => onTogglePin(room.id)}>
           <Text style={styles.pin}>{room.isPinned ? "📌" : "📍"}</Text>
         </TouchableOpacity>
       </View>
+      {/* 책방 이름 */}
       <Text style={styles.name}>{room.name}</Text>
+
+      {/* 책방 일정 */}
       <Text style={styles.schedule}>{room.schedule}</Text>
+
+      {/* 현재 인원 / 최대 인원 */}
       <Text style={styles.members}>
         {room.members}명 / {room.max}명
       </Text>
