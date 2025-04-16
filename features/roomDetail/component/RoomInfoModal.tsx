@@ -35,10 +35,11 @@ export default function RoomInfoModal({
   onClose,
   isHost,
 }: RoomInfoModalProps) {
-  const { id, name, status, schedule } = useLocalSearchParams();
+  const { id, name, status, start, end } = useLocalSearchParams();
   const roomName = name as string;
   const roomStatus = status as string;
-  const roomSchedule = schedule as string;
+  const roomStartDate = start as string;
+  const roomEndDate = end as string;
 
   // 모달 슬라이드 애니메이션 초기값 설정
   const translateX = useRef(new Animated.Value(500)).current;
@@ -78,7 +79,9 @@ export default function RoomInfoModal({
             {/* 방 이름, 상태, 일정 */}
             <Text style={styles.title}>{roomName}</Text>
             <Text style={styles.text}>{roomStatus}</Text>
-            <Text style={styles.text}>{roomSchedule}</Text>
+            <Text style={styles.text}>
+              {roomStartDate} ~ {roomEndDate}
+            </Text>
 
             {/* 참가자 목록 */}
             <Text style={styles.sectionTitle}>참가자</Text>

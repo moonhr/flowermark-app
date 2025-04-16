@@ -10,22 +10,16 @@
  */
 
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-
-type Room = {
-  id: string;
-  name: string;
-  status: "시작전" | "진행중" | "완료";
-  schedule: string;
-  members: number;
-  max: number;
-  isPinned: boolean;
-};
+import { Room } from "@/entities/room/model/types";
+import { formatDate } from "@/shared/lib/formatDate";
 
 export default function RoomCard({
   room,
+  isPinned,
   onTogglePin,
 }: {
   room: Room;
+  isPinned?: boolean;
   onTogglePin: (id: string) => void;
 }) {
   return (
@@ -35,19 +29,21 @@ export default function RoomCard({
         <Text style={styles.status}>{room.status}</Text>
 
         {/* 핀 아이콘 버튼 */}
-        <TouchableOpacity onPress={() => onTogglePin(room.id)}>
-          <Text style={styles.pin}>{room.isPinned ? "📌" : "📍"}</Text>
+        <TouchableOpacity onPress={() => onTogglePin(room.room_id)}>
+          <Text style={styles.pin}>{isPinned ? "📌" : "📍"}</Text>
         </TouchableOpacity>
       </View>
       {/* 책방 이름 */}
-      <Text style={styles.name}>{room.name}</Text>
+      <Text style={styles.name}>{room.room_name}</Text>
 
       {/* 책방 일정 */}
-      <Text style={styles.schedule}>{room.schedule}</Text>
+      <Text style={styles.schedule}>
+        {formatDate(room.start_date)} ~ {formatDate(room.end_date)}
+      </Text>
 
       {/* 현재 인원 / 최대 인원 */}
       <Text style={styles.members}>
-        {room.members}명 / {room.max}명
+        {room.members}명 / {room.capacity}명
       </Text>
     </View>
   );
