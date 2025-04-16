@@ -1,3 +1,14 @@
+/**
+ * @yuxincxoi
+ * * 마이페이지에서 프로필을 수정하는 모달 컴포넌트입니다.
+ * * 닉네임 변경, 프로필 이미지 변경, 로그아웃 및 계정 삭제 등의 기능을 포함합니다.
+ *
+ * @module MyPageEditModal
+ * @param {boolean} visible 모달 표시 여부
+ * @param {() => void} onClose 모달을 닫는 콜백 함수
+ * @returns {JSX.Element} 마이페이지 수정 모달
+ */
+
 import { useEffect, useRef } from "react";
 import {
   Modal,
@@ -16,8 +27,10 @@ export default function MyPageEditModal({
   visible: boolean;
   onClose: () => void;
 }) {
+  // 슬라이드 애니메이션을 위한 translateY 값 (초기 위치는 아래쪽)
   const translateY = useRef(new Animated.Value(500)).current;
 
+  // visible 상태에 따라 모달을 열고 닫는 애니메이션
   useEffect(() => {
     if (visible) {
       Animated.timing(translateY, {
@@ -40,25 +53,34 @@ export default function MyPageEditModal({
         <Animated.View
           style={[styles.modalContent, { transform: [{ translateY }] }]}
         >
+          {/* Title */}
           <Text style={styles.title}>프로필 수정</Text>
+
+          {/* 닫기 버튼 */}
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Text style={styles.closeText}>X</Text>
           </TouchableOpacity>
 
+          {/* 프로필 이미지 변경 */}
           <View style={styles.profileImage} />
 
+          {/* 닉네임 변경 */}
           <TextInput style={styles.input} placeholder="닉네임" />
 
+          {/* 연결된 계정 */}
           <Text style={styles.account}>카카오 계정 연결됨</Text>
 
+          {/* 수정하기 버튼 */}
           <TouchableOpacity style={styles.confirmButton} onPress={onClose}>
             <Text style={styles.confirmText}>완료</Text>
           </TouchableOpacity>
 
+          {/* 로그아웃 버튼 */}
           <TouchableOpacity>
             <Text style={styles.logout}>로그아웃</Text>
           </TouchableOpacity>
 
+          {/* 계정 삭제 버튼 */}
           <TouchableOpacity>
             <Text style={styles.delete}>계정 삭제</Text>
           </TouchableOpacity>

@@ -1,3 +1,12 @@
+/**
+ * @yuxincxoi
+ * * '방 생성하기' 버튼 컴포넌트입니다.
+ *
+ * @module CreateRoomButton
+ * @param {boolean} isEnabled 버튼 활성화 여부
+ * @returns {JSX.Element} '방 생성하기' 버튼 컴포넌트
+ */
+
 import { useRouter } from "expo-router";
 import { TouchableOpacity, Text } from "react-native";
 

@@ -1,3 +1,15 @@
+/**
+ * @yuxincxoi
+ * * 방 상세 정보 모달 컴포넌트입니다.
+ * * 방 이름, 상태, 일정 ,참가자 정보와 책 일정을 표시하고, 방장에게만 수정/삭제 버튼을 표시합니다.
+ *
+ * @module RoomInfoModal
+ * @param {boolean} visible 모달의 표시 여부
+ * @param {() => void} onClose 모달을 닫는 함수
+ * @param {boolean} isHost 사용자가 방장인지 여부
+ * @returns {JSX.Element} 방 상세 정보 모달 컴포넌트
+ */
+
 import {
   Modal,
   View,
@@ -28,8 +40,10 @@ export default function RoomInfoModal({
   const roomStatus = status as string;
   const roomSchedule = schedule as string;
 
+  // 모달 슬라이드 애니메이션 초기값 설정
   const translateX = useRef(new Animated.Value(500)).current;
 
+  // 모달 닫기 애니메이션
   const handleClose = () => {
     Animated.timing(translateX, {
       toValue: 500,
@@ -38,6 +52,7 @@ export default function RoomInfoModal({
     }).start(() => onClose());
   };
 
+  // 모달 열기 애니메이션
   useEffect(() => {
     if (visible) {
       Animated.timing(translateX, {
@@ -54,20 +69,25 @@ export default function RoomInfoModal({
         <Animated.View
           style={[styles.modalContent, { transform: [{ translateX }] }]}
         >
+          {/* 닫기 버튼 */}
           <Text style={styles.closeButton} onPress={handleClose}>
             X
           </Text>
+
           <ScrollView>
+            {/* 방 이름, 상태, 일정 */}
             <Text style={styles.title}>{roomName}</Text>
             <Text style={styles.text}>{roomStatus}</Text>
             <Text style={styles.text}>{roomSchedule}</Text>
 
+            {/* 참가자 목록 */}
             <Text style={styles.sectionTitle}>참가자</Text>
             <View style={styles.row}>
               <UserIcon name="유진" />
               <UserIcon name="혜림" />
             </View>
 
+            {/* 책 일정 목록 */}
             <Text style={styles.sectionTitle}>책 일정</Text>
             <BookScheduleCard
               title="죽고 싶지만 떡볶이는 먹고 싶어"
@@ -80,7 +100,11 @@ export default function RoomInfoModal({
               date="2025.3.18 ~"
             />
             <BookScheduleCard title="자본주의" label="완료된 책" date="완료" />
+
+            {/* 책 교환 일정 수정 요청하기 버튼 */}
             <Button title="책 교환 일정 수정 요청하기" onPress={() => {}} />
+
+            {/* 방 정보 수정, 삭제 버튼 - 방장일 경우 표시 */}
             {isHost && (
               <>
                 <Button title="방 정보 수정하기" onPress={() => {}} />

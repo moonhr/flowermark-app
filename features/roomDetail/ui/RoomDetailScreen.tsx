@@ -1,3 +1,12 @@
+/**
+ * @yuxincxoi
+ * * 방 상세 페이지 화면 컴포넌트입니다.
+ * * 선택된 방의 이름, 현재 읽고 있는 책, 나머지 책들, 방 정보 모달을 포함합니다.
+ *
+ * @module BookRoomDetailScreen
+ * @returns {JSX.Element} 방 상세 UI 및 RoomInfoModal 포함된 화면 컴포넌트
+ */
+
 import {
   View,
   Text,
@@ -40,16 +49,19 @@ export default function BookRoomDetailScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      {/* 방 제목 */}
       <View style={styles.header}>
         <Text style={styles.roomName}>{roomName}</Text>
       </View>
 
+      {/* 현재 읽고 있는 책 */}
       <View style={styles.currentBook}>
         <Text style={styles.currentBookLabel}>첫번째 책 읽는 중</Text>
         <Text style={styles.dDay}>D-{dummyRoom.dDay}</Text>
         <View style={styles.currentBookImage} />
       </View>
 
+      {/* 나머지 참가자들이 읽고있는 책 */}
       <View style={styles.otherBooks}>
         {dummyRoom.otherBooks.map((book) => (
           <View key={book.id} style={styles.bookCard}>
@@ -60,6 +72,7 @@ export default function BookRoomDetailScreen() {
         ))}
       </View>
 
+      {/* 방 정보 모달 열기 버튼 */}
       <TouchableOpacity
         style={styles.infoButton}
         onPress={() => setIsModalVisible(true)}
@@ -67,6 +80,7 @@ export default function BookRoomDetailScreen() {
         <Text style={styles.infoButtonText}>방 정보 확인</Text>
       </TouchableOpacity>
 
+      {/* 방 정보 모달 */}
       <RoomInfoModal
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}

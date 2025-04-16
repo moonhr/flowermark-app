@@ -1,3 +1,12 @@
+/**
+ * @yuxincxoi
+ * * 마이페이지 화면 컴포넌트입니다.
+ * * 사용자 정보를 불러오고, 읽은 책 리스트 및 프로필 수정 모달을 제공합니다.
+ *
+ * @module MyPageScreen
+ * @returns {JSX.Element} 마이페이지 UI 및 BookModal, MyPageEditModal을 포함한 컴포넌트
+ */
+
 import { useState } from "react";
 import {
   View,
@@ -6,7 +15,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import MyPageModal from "../component/MyPageModal";
+import BookModal from "../component/BookModal";
 import MyPageEditModal from "../component/MyPageEditModal";
 
 const readBooks = [
@@ -39,16 +48,30 @@ export default function MyPageScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      {/* 프로필 영역 */}
       <View style={styles.profileContainer}>
-        <View style={styles.profileImage} />
+        {/* 프로필 이미지 */}
+          <View style={styles.profileImage} />
+        )}
+
+        {/* 닉네임 */}
         <Text style={styles.nickname}>유진</Text>
+
+        {/* 연결된 계정 */}
         <Text style={styles.account}>카카오 계정 연결됨</Text>
-        <TouchableOpacity style={styles.editButton} onPress={() => setEditVisible(true)}>
+
+        {/* 내 정보 수정하기 버튼 */}
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => setEditVisible(true)}
+        >
           <Text style={styles.editButtonText}>내 정보 수정하기</Text>
         </TouchableOpacity>
       </View>
 
+      {/* Title */}
       <Text style={styles.sectionTitle}>읽은 책</Text>
+      {/* 읽은 책 리스트를 그리드 형식으로 렌더링 */}
       <View style={styles.grid}>
         {readBooks.map((book) => (
           <TouchableOpacity
@@ -59,8 +82,13 @@ export default function MyPageScreen() {
         ))}
       </View>
 
-      <MyPageModal book={selected} onClose={() => setSelected(null)} />
-      <MyPageEditModal visible={editVisible} onClose={() => setEditVisible(false)} />
+      {/* 책 상세 정보 모달 */}
+      <BookModal book={selected} onClose={() => setSelected(null)} />
+      {/* 내 정보 수정 모달 */}
+      <MyPageEditModal
+        visible={editVisible}
+        onClose={() => setEditVisible(false)}
+      />
     </ScrollView>
   );
 }
