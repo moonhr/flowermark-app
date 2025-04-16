@@ -5,6 +5,7 @@
  *
  * @module RoomCard
  * @param {Room} room 책방 정보 객체
+ * @param {boolean} [isPinned] 핀 상태
  * @param {(id: string) => void} onTogglePin 핀 버튼 클릭 시 호출되는 콜백 함수
  * @returns {JSX.Element} 책방 정보를 담은 카드 컴포넌트
  */

@@ -26,6 +26,7 @@ export default function RoomListScreen() {
   const router = useRouter();
   const [rooms, setRooms] = useState<(Room & { isPinned?: boolean })[]>([]);
 
+  // 컴포넌트가 마운트될 때 책방 목록을 가져오기
   useEffect(() => {
     const loadRooms = async () => {
       const fetched = await fetchRooms();
