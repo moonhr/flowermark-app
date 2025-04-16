@@ -7,7 +7,7 @@
  * @returns {JSX.Element} 책방 생성 버튼과 책방 리스트를 포함한 화면
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
 import {
   View,
@@ -16,49 +16,32 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
+import { Room } from "@/entities/room/model/types";
 import RoomCard from "../components/RoomCard";
 import CreateRoomButton from "../components/CreateRoomButton";
-
-type Room = {
-  id: string;
-  name: string;
-  status: "시작전" | "진행중" | "완료";
-  schedule: string;
-  members: number;
-  max: number;
-  isPinned: boolean;
-};
-
-const dummyRooms: Room[] = [
-  {
-    id: "1",
-    name: "봄날의 독서방",
-    status: "시작전",
-    schedule: "2025년 3월 10일 ~ 4월 9일",
-    members: 1,
-    max: 4,
-    isPinned: true,
-  },
-  {
-    id: "2",
-    name: "여름밤 독서클럽",
-    status: "진행중",
-    schedule: "2025년 4월 15일 ~ 5월 15일",
-    members: 3,
-    max: 4,
-    isPinned: false,
-  },
-];
+import { fetchRooms } from "@/entities/room/model/fetchRooms";
+import { formatDate } from "@/shared/lib/formatDate";
 
 export default function RoomListScreen() {
   const router = useRouter();
-  const [rooms, setRooms] = useState<Room[]>(dummyRooms);
+  const [rooms, setRooms] = useState<(Room & { isPinned?: boolean })[]>([]);
+
+  useEffect(() => {
+    const loadRooms = async () => {
+      const fetched = await fetchRooms();
+      const extended = fetched.map((room) => ({ ...room, isPinned: false }));
+      setRooms(extended);
+    };
+    loadRooms();
+  }, []);
 
   // 특정 책방의 isPinned 상태를 토글하는 함수
   const togglePin = (id: string) => {
     setRooms((prev) =>
       prev.map((room) =>
-        room.id === id ? { ...room, isPinned: !room.isPinned } : room
+        room.room_id === id
+          ? { ...room, isPinned: room.isPinned ? undefined : true }
+          : room
       )
     );
   };
@@ -78,22 +61,27 @@ export default function RoomListScreen() {
       {/* 책방 리스트 렌더링 */}
       <FlatList
         data={sortedRooms}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.room_id}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() =>
               router.push({
                 pathname: "/room-detail/[id]",
                 params: {
-                  id: item.id,
-                  name: item.name,
+                  id: item.room_id,
+                  name: item.room_name,
                   status: item.status,
-                  schedule: item.schedule,
+                  start: formatDate(item.start_date),
+                  end: formatDate(item.end_date),
                 },
               })
             }
           >
-            <RoomCard room={item} onTogglePin={togglePin} />
+            <RoomCard
+              room={item}
+              isPinned={item.isPinned}
+              onTogglePin={togglePin}
+            />
           </TouchableOpacity>
         )}
       />
