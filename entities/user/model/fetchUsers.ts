@@ -14,8 +14,5 @@ import { User } from "./types";
 export async function fetchUsers(): Promise<User[]> {
   const querySnapshot = await getDocs(collection(db, "users"));
 
-  return querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as User[];
+  return querySnapshot.docs.map((doc) => doc.data() as User);
 }
