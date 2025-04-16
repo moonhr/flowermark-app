@@ -19,6 +19,7 @@ import {
 import BookModal from "../component/BookModal";
 import MyPageEditModal from "../component/MyPageEditModal";
 import { fetchUsers } from "@/entities/user/model/fetchUsers";
+import { User } from "@/entities/user/model/types";
 
 const readBooks = [
   {
@@ -47,7 +48,7 @@ const readBooks = [
 export default function MyPageScreen() {
   const [selected, setSelected] = useState<(typeof readBooks)[0] | null>(null);
   const [editVisible, setEditVisible] = useState(false);
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   // 컴포넌트 마운트 시 사용자 정보 가져오기
   useEffect(() => {
@@ -108,6 +109,7 @@ export default function MyPageScreen() {
       <MyPageEditModal
         visible={editVisible}
         onClose={() => setEditVisible(false)}
+        user={user}
       />
     </ScrollView>
   );

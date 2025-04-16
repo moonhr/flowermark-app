@@ -9,7 +9,7 @@
  * @returns {JSX.Element} 마이페이지 수정 모달
  */
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Modal,
   View,
@@ -18,15 +18,20 @@ import {
   StyleSheet,
   TextInput,
   Animated,
+  Image,
 } from "react-native";
+import { User } from "@/entities/user/model/types";
 
 export default function MyPageEditModal({
   visible,
   onClose,
+  user,
 }: {
   visible: boolean;
   onClose: () => void;
+  user: User | null;
 }) {
+  const [nickname, setNickname] = useState("");
   // 슬라이드 애니메이션을 위한 translateY 값 (초기 위치는 아래쪽)
   const translateY = useRef(new Animated.Value(500)).current;
 
@@ -47,6 +52,12 @@ export default function MyPageEditModal({
     }
   }, [visible]);
 
+  useEffect(() => {
+    if (user?.nickname) {
+      setNickname(user.nickname);
+    }
+  }, [user]);
+
   return (
     <Modal visible={visible} transparent animationType="none">
       <View style={styles.overlay}>
@@ -62,10 +73,21 @@ export default function MyPageEditModal({
           </TouchableOpacity>
 
           {/* 프로필 이미지 변경 */}
-          <View style={styles.profileImage} />
+          {user?.profile_image ? (
+            <Image
+              source={{ uri: user.profile_image }}
+              style={styles.profileImage}
+            />
+          ) : (
+            <View style={styles.profileImage} />
+          )}
 
           {/* 닉네임 변경 */}
-          <TextInput style={styles.input} placeholder="닉네임" />
+          <TextInput
+            placeholder="변경할 닉네임을 입력해주세요."
+            onChangeText={setNickname}
+            value={nickname}
+          />
 
           {/* 연결된 계정 */}
           <Text style={styles.account}>카카오 계정 연결됨</Text>
