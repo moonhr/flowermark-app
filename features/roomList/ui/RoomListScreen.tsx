@@ -54,11 +54,6 @@ export default function RoomListScreen() {
   const router = useRouter();
   const [rooms, setRooms] = useState<Room[]>(dummyRooms);
 
-  // 책방 생성 버튼 클릭 시 실행되는 함수
-  const handleCreateRoom = () => {
-    console.log("새 책방 만들기 클릭됨");
-  };
-
   // 특정 책방의 isPinned 상태를 토글하는 함수
   const togglePin = (id: string) => {
     setRooms((prev) =>
