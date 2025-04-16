@@ -7,16 +7,18 @@
  * @returns {JSX.Element} 마이페이지 UI 및 BookModal, MyPageEditModal을 포함한 컴포넌트
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import BookModal from "../component/BookModal";
 import MyPageEditModal from "../component/MyPageEditModal";
+import { fetchUsers } from "@/entities/user/model/fetchUsers";
 
 const readBooks = [
   {
@@ -45,17 +47,35 @@ const readBooks = [
 export default function MyPageScreen() {
   const [selected, setSelected] = useState<(typeof readBooks)[0] | null>(null);
   const [editVisible, setEditVisible] = useState(false);
+  const [user, setUser] = useState<any | null>(null);
+
+  // 컴포넌트 마운트 시 사용자 정보 가져오기
+  useEffect(() => {
+    const loadUser = async () => {
+      const users = await fetchUsers();
+      if (users.length > 0) {
+        setUser(users[0]);
+      }
+    };
+    loadUser();
+  }, []);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* 프로필 영역 */}
       <View style={styles.profileContainer}>
         {/* 프로필 이미지 */}
+        {user?.profile_image ? (
+          <Image
+            source={{ uri: user.profile_image }}
+            style={styles.profileImage}
+          />
+        ) : (
           <View style={styles.profileImage} />
         )}
 
         {/* 닉네임 */}
-        <Text style={styles.nickname}>유진</Text>
+        <Text style={styles.nickname}>{user?.nickname ?? "닉네임 없음"}</Text>
 
         {/* 연결된 계정 */}
         <Text style={styles.account}>카카오 계정 연결됨</Text>
