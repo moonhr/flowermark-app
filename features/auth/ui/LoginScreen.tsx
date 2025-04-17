@@ -3,7 +3,10 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useAuthRequest, makeRedirectUri } from "expo-auth-session";
 import { loginWithProvider } from "@/features/auth/lib/socialLogin";
 
-const KAKAO_CLIENT_ID = "YOUR_KAKAO_REST_API_KEY"; // REST API 키
+const KAKAO_CLIENT_ID: string = process.env.EXPO_PUBLIC_KAKAO_CLIENT_ID!;
+if (!KAKAO_CLIENT_ID) {
+  throw new Error("KAKAO_CLIENT_ID is not defined in environment variables.");
+}
 const REDIRECT_URI = makeRedirectUri({}); // 앱에 등록된 redirect URI
 const discovery = {
   authorizationEndpoint: "https://kauth.kakao.com/oauth/authorize",
