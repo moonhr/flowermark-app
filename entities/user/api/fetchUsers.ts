@@ -8,7 +8,7 @@
 
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
-import { User } from "./types";
+import { User } from "../model/types";
 
 // 'users' 컬렉션에서 사용자 데이터를 모두 가져와 User[] 형태로 반환
 export async function fetchUsers(): Promise<User[]> {
