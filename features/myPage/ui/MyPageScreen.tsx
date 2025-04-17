@@ -18,7 +18,7 @@ import {
 } from "react-native";
 import BookModal from "../component/BookModal";
 import MyPageEditModal from "../component/MyPageEditModal";
-import { fetchUsers } from "@/entities/user/model/fetchUsers";
+import { fetchUsers } from "@/entities/user/api/fetchUsers";
 import { User } from "@/entities/user/model/types";
 
 const readBooks = [

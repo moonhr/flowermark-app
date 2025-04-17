@@ -19,7 +19,7 @@ import {
 import { Room } from "@/entities/room/model/types";
 import RoomCard from "../components/RoomCard";
 import CreateRoomButton from "../components/CreateRoomButton";
-import { fetchRooms } from "@/entities/room/model/fetchRooms";
+import { fetchRooms } from "@/entities/room/api/fetchRooms";
 import { formatDate } from "@/shared/lib/formatDate";
 
 export default function RoomListScreen() {
