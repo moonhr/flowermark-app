@@ -1,49 +1,9 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { useAuthRequest, makeRedirectUri } from "expo-auth-session";
-import { loginWithProvider } from "@/features/auth/lib/socialLogin";
-
-const KAKAO_CLIENT_ID: string = process.env.EXPO_PUBLIC_KAKAO_CLIENT_ID!;
-if (!KAKAO_CLIENT_ID) {
-  throw new Error("KAKAO_CLIENT_ID is not defined in environment variables.");
-}
-const REDIRECT_URI = makeRedirectUri({}); // 앱에 등록된 redirect URI
-const discovery = {
-  authorizationEndpoint: "https://kauth.kakao.com/oauth/authorize",
-};
+import { useKakaoLogin } from "../lib/useKakaoLogin";
 
 export default function LoginScreen() {
-  const [request, response, promptAsync] = useAuthRequest(
-    {
-      clientId: KAKAO_CLIENT_ID,
-      redirectUri: REDIRECT_URI,
-      responseType: "code",
-    },
-    discovery
-  );
-
-  React.useEffect(() => {
-    if (response?.type === "success" && response.params.code) {
-      const code = response.params.code;
-
-      const fetchToken = async () => {
-        try {
-          await loginWithProvider("kakao", code, REDIRECT_URI);
-        } catch (err) {
-          console.error(err);
-          Alert.alert("로그인 실패", "문제가 발생했습니다.");
-        }
-      };
-
-      fetchToken();
-    } else if (response?.type === "error") {
-      Alert.alert("로그인 취소됨");
-    }
-  }, [response]);
-
-  const handleKakaoLogin = async () => {
-    await promptAsync();
-  };
+  const { handleKakaoLogin } = useKakaoLogin();
 
   return (
     <View style={styles.container}>
