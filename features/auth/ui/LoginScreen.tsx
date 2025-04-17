@@ -1,9 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useKakaoLogin } from "../lib/useKakaoLogin";
+import { useNaverLogin } from "../lib/useNaverLogin";
 
 export default function LoginScreen() {
   const { handleKakaoLogin } = useKakaoLogin();
+  const { handleNaverLogin } = useNaverLogin();
 
   return (
     <View style={styles.container}>
@@ -20,7 +22,7 @@ export default function LoginScreen() {
         {/* 네이버 로그인 버튼 */}
         <TouchableOpacity
           style={[styles.button, styles.naver]}
-          // onPress={() => loginWithProvider("naver")}
+          onPress={handleNaverLogin}
         >
           <View style={styles.iconPlaceholder} />
           <Text style={styles.naverText}>네이버로 로그인</Text>
