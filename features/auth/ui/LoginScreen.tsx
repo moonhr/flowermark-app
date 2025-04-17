@@ -1,18 +1,25 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { loginWithProvider } from "@/features/auth/lib/socialLogin";
 
 export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.buttonWrapper}>
         {/* 카카오 로그인 버튼 */}
-        <TouchableOpacity style={[styles.button, styles.kakao]}>
+        <TouchableOpacity
+          style={[styles.button, styles.kakao]}
+          onPress={() => loginWithProvider("kakao")}
+        >
           <View style={styles.iconPlaceholder} />
           <Text style={styles.kakaoText}>카카오톡으로 로그인</Text>
         </TouchableOpacity>
 
         {/* 네이버 로그인 버튼 */}
-        <TouchableOpacity style={[styles.button, styles.naver]}>
+        <TouchableOpacity
+          style={[styles.button, styles.naver]}
+          onPress={() => loginWithProvider("naver")}
+        >
           <View style={styles.iconPlaceholder} />
           <Text style={styles.naverText}>네이버로 로그인</Text>
         </TouchableOpacity>
