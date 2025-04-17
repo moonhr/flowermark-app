@@ -9,17 +9,13 @@
  */
 
 import { TouchableOpacity, StyleSheet } from "react-native";
+import { FlowerMarkProps } from "../model/types";
 
 export default function FlowerMark({
   flower,
   onPress,
 }: {
-  flower: {
-    id: number;
-    name: string;
-    englishName: string;
-    goal: string;
-  };
+  flower: FlowerMarkProps;
   onPress: () => void;
 }) {
   return <TouchableOpacity style={styles.flowerMark} onPress={onPress} />;

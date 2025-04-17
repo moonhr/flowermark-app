@@ -9,17 +9,13 @@
  */
 
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { FlowerMarkProps } from "../model/types";
 
 export default function FlowerMarkModal({
   flower,
   onClose,
 }: {
-  flower: {
-    id: number;
-    name: string;
-    englishName: string;
-    goal: string;
-  };
+  flower: FlowerMarkProps;
   onClose: () => void;
 }) {
   return (
@@ -32,7 +28,7 @@ export default function FlowerMarkModal({
           </TouchableOpacity>
 
           {/* 꽃 이름 */}
-          <Text style={styles.flowerName}>{flower.name}</Text>
+          <Text style={styles.flowerName}>{flower.flower_type}</Text>
 
           {/* 꽃 영어 이름 */}
           <Text style={styles.flowerEnglishName}>{flower.englishName}</Text>
@@ -41,7 +37,7 @@ export default function FlowerMarkModal({
           <View style={styles.modalFlowerMark} />
 
           {/* 달성한 목표 */}
-          <Text style={styles.goal}>{flower.goal}</Text>
+          <Text style={styles.goal}>{flower.description}</Text>
         </View>
       </View>
     </Modal>
