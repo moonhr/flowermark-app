@@ -25,12 +25,19 @@ export default function RoomCapacitySelect({
     <View style={{ marginBottom: 16 }}>
       <View style={{ borderWidth: 1, borderColor: "#ccc", borderRadius: 6 }}>
         <Picker
-          selectedValue={value}
-          onValueChange={(itemValue: number) => onChange(itemValue)}
+          selectedValue={value?.toString() ?? ""}
+          onValueChange={(itemValue) => {
+            if (itemValue === "") return;
+            onChange(Number(itemValue));
+          }}
         >
-          <Picker.Item label="인원 선택" value={null} />
+          <Picker.Item label="인원 선택" value="" />
           {options.map((opt) => (
-            <Picker.Item key={opt} label={`${opt}명`} value={opt} />
+            <Picker.Item
+              key={opt}
+              label={`${opt.toString()}명`}
+              value={opt.toString()}
+            />
           ))}
         </Picker>
       </View>
