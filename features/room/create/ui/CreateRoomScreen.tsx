@@ -12,7 +12,7 @@ import { useState } from "react";
 import CreateRoomButton from "../components/SubmitRoomButton";
 import RoomCapacitySelect from "../components/RoomCapacitySelect";
 import Input from "@/shared/ui/Input";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DatePickerModal from "@/shared/ui/DatePicker";
 
 export default function CreateRoomScreen() {
   const [name, setName] = useState("");
@@ -69,9 +69,8 @@ export default function CreateRoomScreen() {
           title="시작일 선택"
           onPress={() => setStartPickerVisible(true)}
         />
-        <DateTimePickerModal
+        <DatePickerModal
           isVisible={isStartPickerVisible}
-          mode="date"
           onConfirm={handleStartConfirm}
           onCancel={() => setStartPickerVisible(false)}
         />
@@ -82,9 +81,8 @@ export default function CreateRoomScreen() {
             title="종료일 선택"
             onPress={() => setEndPickerVisible(true)}
           />
-          <DateTimePickerModal
+          <DatePickerModal
             isVisible={isEndPickerVisible}
-            mode="date"
             onConfirm={handleEndConfirm}
             onCancel={() => setEndPickerVisible(false)}
           />
