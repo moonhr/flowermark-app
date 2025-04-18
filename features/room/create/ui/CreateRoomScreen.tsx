@@ -7,22 +7,25 @@
  * @returns {JSX.Element} 방 생성 입력 UI 컴포넌트
  */
 
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import { useState } from "react";
 import CreateRoomButton from "../components/SubmitRoomButton";
 import RoomCapacitySelect from "../components/RoomCapacitySelect";
 import Input from "@/shared/ui/Input";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export default function CreateRoomScreen() {
   const [name, setName] = useState("");
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-  const [capacity, setCapacity] = useState<number | undefined>(undefined);
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
+  const [capacity, setCapacity] = useState<number>();
+  const [isStartPickerVisible, setStartPickerVisible] = useState(false);
+  const [isEndPickerVisible, setEndPickerVisible] = useState(false);
 
   // 모든 입력값이 존재하는 경우 true(버튼 활성화)
   const isFormComplete = name && startDate && endDate && capacity;
 
-  // 전체 독서 기간
+  // 전체 독서 기간 계산
   const totalDays =
     startDate && endDate
       ? Math.ceil(
@@ -33,6 +36,19 @@ export default function CreateRoomScreen() {
   // 1인당 책 읽는 일수 = 전체 독서 기간 / 총 인원 수
   const daysPerBook =
     capacity && totalDays ? Math.floor(totalDays / capacity) : "__";
+
+  const handleStartConfirm = (date: Date) => {
+    setStartDate(date);
+    setStartPickerVisible(false);
+  };
+
+  const handleEndConfirm = (date: Date) => {
+    setEndDate(date);
+    setEndPickerVisible(false);
+    if (startDate) {
+      setEndPickerVisible(false);
+    }
+  };
 
   return (
     <View style={{ padding: 20 }}>
@@ -46,9 +62,41 @@ export default function CreateRoomScreen() {
       />
 
       {/* 책방 일정 */}
-      <Text>책방 일정</Text>
-      {/* 캘린더 추가하기 */}
-      {/* ex. '2025년 3월 10일 ~ 2025년 4월 9일'이라는 텍스트도 함께 표시 */}
+      <Text style={{ marginTop: 16 }}>책방 일정</Text>
+      <View style={{ marginTop: 10 }}>
+        {/* 시작일 선택 */}
+        <Button
+          title="시작일 선택"
+          onPress={() => setStartPickerVisible(true)}
+        />
+        <DateTimePickerModal
+          isVisible={isStartPickerVisible}
+          mode="date"
+          onConfirm={handleStartConfirm}
+          onCancel={() => setStartPickerVisible(false)}
+        />
+
+        {/* 종료일 선택 */}
+        <View style={{ marginTop: 10 }}>
+          <Button
+            title="종료일 선택"
+            onPress={() => setEndPickerVisible(true)}
+          />
+          <DateTimePickerModal
+            isVisible={isEndPickerVisible}
+            mode="date"
+            onConfirm={handleEndConfirm}
+            onCancel={() => setEndPickerVisible(false)}
+          />
+        </View>
+
+        {/* 선택된 날짜 표시 */}
+        {(startDate || endDate) && (
+          <Text style={{ marginTop: 10 }}>
+            {startDate?.toLocaleDateString()} ~ {endDate?.toLocaleDateString()}
+          </Text>
+        )}
+      </View>
 
       {/* 방의 총 인원 수 */}
       <RoomCapacitySelect value={capacity} onChange={setCapacity} />
