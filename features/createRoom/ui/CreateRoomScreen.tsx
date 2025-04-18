@@ -9,8 +9,8 @@
 
 import { View, Text } from "react-native";
 import { useState } from "react";
-import CreateRoomButton from "../component/CreateRoomButton";
-import RoomCapacitySelect from "../component/RoomCapacitySelect";
+import CreateRoomButton from "../components/SubmitRoomButton";
+import RoomCapacitySelect from "../components/RoomCapacitySelect";
 import Input from "@/shared/ui/Input";
 
 export default function CreateRoomScreen() {

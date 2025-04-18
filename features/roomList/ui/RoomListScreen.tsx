@@ -18,7 +18,7 @@ import {
 } from "react-native";
 import { Room } from "@/entities/room/model/types";
 import RoomCard from "../components/RoomCard";
-import CreateRoomButton from "../components/CreateRoomButton";
+import CreateRoomButton from "../components/GoToCreateRoomButton";
 import { fetchRooms } from "@/entities/room/api/fetchRooms";
 import { formatDate } from "@/shared/lib/formatDate";
 
