@@ -52,7 +52,7 @@ export default function Input({
         {...rest}
       />
       {/* 에러 메시지 (선택적) */}
-      {error && <Text style={styles.error}>{error}</Text>}{" "}
+      {error && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 }
