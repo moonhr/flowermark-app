@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAuthRequest, makeRedirectUri } from "expo-auth-session";
-import { loginWithProvider } from "@/features/auth/lib/socialLogin";
+import { loginWithProvider } from "./socialLogin";
 import { Alert } from "react-native";
 
 export function useNaverLogin() {

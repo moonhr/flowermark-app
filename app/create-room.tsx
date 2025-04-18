@@ -6,6 +6,6 @@
  * @returns {JSX.Element} 방 생성 화면을 렌더링하는 컴포넌트
  */
 
-import CreateRoomScreen from "@/features/createRoom/ui/CreateRoomScreen";
+import CreateRoomScreen from "@/features/room/create/ui/CreateRoomScreen";
 
 export default CreateRoomScreen;

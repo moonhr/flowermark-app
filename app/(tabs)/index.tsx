@@ -9,7 +9,7 @@
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "expo-router";
-import RoomListScreen from "@/features/roomList/ui/RoomListScreen";
+import RoomListScreen from "@/features/room/list/ui/RoomListScreen";
 
 export default function HomeTab() {
   // 로그인 상태 (null: 확인 중)

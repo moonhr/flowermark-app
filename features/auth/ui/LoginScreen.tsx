@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { useKakaoLogin } from "../lib/useKakaoLogin";
-import { useNaverLogin } from "../lib/useNaverLogin";
+import { useKakaoLogin } from "../model/lib/useKakaoLogin";
+import { useNaverLogin } from "../model/lib/useNaverLogin";
 
 export default function LoginScreen() {
   const { handleKakaoLogin } = useKakaoLogin();

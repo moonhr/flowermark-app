@@ -7,7 +7,7 @@
  * @returns {JSX.Element} 특정 방의 페이지를 렌더링하는 컴포넌트
  */
 
-import RoomDetailScreen from "@/features/roomDetail/ui/RoomDetailScreen";
+import RoomDetailScreen from "@/features/room/detail/ui/RoomDetailScreen";
 
 export default function RoomDetailPage() {
   return <RoomDetailScreen />;
