@@ -23,7 +23,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useState, useEffect, useRef } from "react";
 import UserIcon from "./UserIcon";
 import BookScheduleCard from "./BookScheduleCard";
-import RoomEditModal from "./RoomEditModal";
+import RoomEditModal from "../../update/components/RoomEditModal";
 import { Timestamp } from "firebase/firestore";
 
 type RoomInfoModalProps = {
