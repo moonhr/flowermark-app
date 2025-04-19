@@ -11,3 +11,7 @@ export type Room = {
   start_date: Timestamp;
   end_date: Timestamp;
 };
+
+export type RoomwithId = Room & {
+  room_id: string;
+};
