@@ -13,6 +13,7 @@ import CreateRoomButton from "../components/SubmitRoomButton";
 import RoomCapacitySelect from "../components/RoomCapacitySelect";
 import Input from "@/shared/ui/Input";
 import DatePickerModal from "@/shared/ui/DatePicker";
+import { Timestamp } from "firebase/firestore";
 
 export default function CreateRoomScreen() {
   const [name, setName] = useState("");
@@ -105,7 +106,21 @@ export default function CreateRoomScreen() {
       </Text>
 
       {/* '방 생성하기' 버튼 */}
-      <CreateRoomButton isEnabled={!!isFormComplete} />
+      <CreateRoomButton
+        isEnabled={!!isFormComplete}
+        roomData={{
+          creator_id: "" as string, // todo : 값 수정하기
+          created_at: Timestamp.fromDate(new Date()) as Timestamp,
+          room_name: name,
+          status: "시작전",
+          members: [],
+          capacity: capacity || 0,
+          start_date: startDate
+            ? Timestamp.fromDate(startDate)
+            : Timestamp.now(),
+          end_date: endDate ? Timestamp.fromDate(endDate) : Timestamp.now(),
+        }}
+      />
     </View>
   );
 }

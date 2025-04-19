@@ -9,11 +9,15 @@
 
 import { useRouter } from "expo-router";
 import { TouchableOpacity, Text } from "react-native";
+import { addRoom } from "@/entities/room/api/addRoom";
+import { Room } from "@/entities/room/model/types";
 
 export default function SubmitRoomButton({
   isEnabled,
+  roomData,
 }: {
   isEnabled: boolean;
+  roomData: Room;
 }) {
   const router = useRouter();
 
@@ -25,7 +29,10 @@ export default function SubmitRoomButton({
         borderRadius: 8,
       }}
       disabled={!isEnabled}
-      onPress={() => router.back()}
+      onPress={() => {
+        addRoom(roomData);
+        router.back();
+      }}
     >
       <Text style={{ textAlign: "center", color: "#fff" }}>방 생성하기</Text>
     </TouchableOpacity>
