@@ -13,5 +13,8 @@ import { RoomwithId } from "../model/types";
 // 'rooms' 컬렉션에서 사용자 데이터를 모두 가져와 Room[] 형태로 반환
 export async function fetchRooms(): Promise<RoomwithId[]> {
   const querySnapshot = await getDocs(collection(db, "rooms"));
-  return querySnapshot.docs.map((doc) => doc.data() as RoomwithId);
+  return querySnapshot.docs.map((doc) => ({
+    ...(doc.data() as Omit<RoomwithId, "room_id">),
+    room_id: doc.id,
+  }));
 }
