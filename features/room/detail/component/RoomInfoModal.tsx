@@ -20,9 +20,11 @@ import {
   Animated,
 } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import UserIcon from "./UserIcon";
 import BookScheduleCard from "./BookScheduleCard";
+import RoomEditModal from "./RoomEditModal";
+import { Timestamp } from "firebase/firestore";
 
 type RoomInfoModalProps = {
   visible: boolean;
@@ -40,6 +42,7 @@ export default function RoomInfoModal({
   const roomStatus = status as string;
   const roomStartDate = start as string;
   const roomEndDate = end as string;
+  const [editVisible, setEditVisible] = useState(false);
 
   // 모달 슬라이드 애니메이션 초기값 설정
   const translateX = useRef(new Animated.Value(500)).current;
@@ -111,10 +114,24 @@ export default function RoomInfoModal({
             {/* 방 정보 수정, 삭제 버튼 - 방장일 경우 표시 */}
             {isHost && (
               <>
-                <Button title="방 정보 수정하기" onPress={() => {}} />
+                <Button
+                  title="방 정보 수정하기"
+                  onPress={() => setEditVisible(true)}
+                />
                 <Button title="방 삭제하기" onPress={() => {}} color="red" />
               </>
             )}
+
+            {/* 내 정보 수정 모달 */}
+            <RoomEditModal
+              visible={editVisible}
+              onClose={() => setEditVisible(false)}
+              room={{
+                roomName: roomName,
+                roomStartDate: Timestamp.fromDate(new Date(roomStartDate)),
+                roomEndDate: Timestamp.fromDate(new Date(roomEndDate)),
+              }}
+            />
           </ScrollView>
         </Animated.View>
       </View>
