@@ -104,8 +104,9 @@ export default function RoomInfoModal({
             />
             <BookScheduleCard title="자본주의" label="완료된 책" date="완료" />
 
-            {/* 책 교환 일정 수정 요청하기 버튼 */}
+            {/* 책 교환 일정 수정, 방 삭제 요청하기 버튼 */}
             <Button title="책 교환 일정 수정 요청하기" onPress={() => {}} />
+            <Button title="방 삭제 및 책 회수 요청하기" onPress={() => {}} />
 
             {/* 방 정보 수정, 삭제 버튼 - 방장일 경우 표시 */}
             {isHost && (
