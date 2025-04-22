@@ -40,13 +40,15 @@ export default function FlowerMarkScreen() {
     <View style={styles.container}>
       {/* 꽃갈피 목록을 그리드 형태로 렌더링 */}
       <ScrollView contentContainerStyle={styles.grid}>
-        {flowerMarks.map((flower) => (
-          <FlowerMark
-            key={flower.mark_id ?? flower.name}
-            flower={flower}
-            onPress={() => setSelected(flower)}
-          />
-        ))}
+        {flowerMarks
+          .filter((flower) => flower.level === 1)
+          .map((flower) => (
+            <FlowerMark
+              key={flower.mark_id ?? flower.name}
+              flower={flower}
+              onPress={() => setSelected(flower)}
+            />
+          ))}
       </ScrollView>
 
       {/* 꽃갈피를 선택한 경우, 꽃갈피 상세 정보를 모달로 표시 */}
