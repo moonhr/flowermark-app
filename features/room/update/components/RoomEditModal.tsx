@@ -138,7 +138,7 @@ export default function RoomEditModal({
             {/* 선택된 날짜 표시 */}
             {(roomStartDate || roomEndDate) && (
               <Text style={{ marginTop: 10 }}>
-                {roomStartDate?.toLocaleDateString()} ~
+                {roomStartDate?.toLocaleDateString()} ~{" "}
                 {roomEndDate?.toLocaleDateString()}
               </Text>
             )}
