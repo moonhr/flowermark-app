@@ -35,8 +35,8 @@ export default function RoomEditModal({
 }) {
   const [exRoomName, setExRoomName] = useState("");
   const [roomName, setRoomName] = useState("");
-  const [roomStartDate, setRoomStartDate] = useState("");
-  const [roomEndDate, setRoomEndDate] = useState("");
+  const [roomStartDate, setRoomStartDate] = useState<Date | null>(null);
+  const [roomEndDate, setRoomEndDate] = useState<Date | null>(null);
   const [isStartPickerVisible, setStartPickerVisible] = useState(false);
   const [isEndPickerVisible, setEndPickerVisible] = useState(false);
 
@@ -65,22 +65,23 @@ export default function RoomEditModal({
       setExRoomName(room.room_name);
       setRoomName(room.roomName);
     }
+
     // todo : 초기값 설정 필요
-    if (room.roomStartDate) {
-      setRoomStartDate(room.roomStartDate.toDate().toLocaleDateString());
+    if (room.start_date) {
+      setRoomStartDate(room.start_date.toDate());
     }
-    if (room.roomEndDate) {
-      setRoomEndDate(room.roomEndDate.toDate().toLocaleDateString());
+    if (room.end_date) {
+      setRoomEndDate(room.end_date.toDate());
     }
   }, [room]);
 
   const handleStartConfirm = (date: Date) => {
-    setRoomStartDate(date.toLocaleDateString());
+    setRoomStartDate(date);
     setStartPickerVisible(false);
   };
 
   const handleEndConfirm = (date: Date) => {
-    setRoomEndDate(date.toLocaleDateString());
+    setRoomEndDate(date);
     setEndPickerVisible(false);
     if (roomStartDate) {
       setEndPickerVisible(false);
@@ -139,7 +140,8 @@ export default function RoomEditModal({
             {/* 선택된 날짜 표시 */}
             {(roomStartDate || roomEndDate) && (
               <Text style={{ marginTop: 10 }}>
-                {roomStartDate} ~ {roomEndDate}
+                {roomStartDate?.toLocaleDateString()} ~
+                {roomEndDate?.toLocaleDateString()}
               </Text>
             )}
           </View>
