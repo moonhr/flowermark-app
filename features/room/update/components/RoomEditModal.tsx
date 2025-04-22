@@ -33,6 +33,7 @@ export default function RoomEditModal({
   onClose: () => void;
   room: { roomName: string; roomStartDate: Timestamp; roomEndDate: Timestamp };
 }) {
+  const [exRoomName, setExRoomName] = useState("");
   const [roomName, setRoomName] = useState("");
   const [roomStartDate, setRoomStartDate] = useState("");
   const [roomEndDate, setRoomEndDate] = useState("");
@@ -61,6 +62,7 @@ export default function RoomEditModal({
 
   useEffect(() => {
     if (room?.roomName) {
+      setExRoomName(room.room_name);
       setRoomName(room.roomName);
     }
     // todo : 초기값 설정 필요
