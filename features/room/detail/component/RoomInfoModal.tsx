@@ -127,9 +127,14 @@ export default function RoomInfoModal({
               visible={editVisible}
               onClose={() => setEditVisible(false)}
               room={{
-                roomName: roomName,
-                roomStartDate: Timestamp.fromDate(new Date(roomStartDate)),
-                roomEndDate: Timestamp.fromDate(new Date(roomEndDate)),
+                room_name: roomName,
+                status: roomStatus as "시작전" | "진행중" | "완료",
+                members: [],
+                capacity: 0,
+                creator_id: "",
+                created_at: Timestamp.now(),
+                start_date: Timestamp.fromDate(new Date(roomStartDate)),
+                end_date: Timestamp.fromDate(new Date(roomEndDate)),
               }}
             />
           </ScrollView>

@@ -23,6 +23,7 @@ import {
 import { Room } from "@/entities/room/model/types";
 import { Timestamp } from "firebase/firestore";
 import DatePickerModal from "@/shared/ui/DatePicker";
+import { updateRoom } from "@/entities/room/api/updateRoom";
 
 export default function RoomEditModal({
   visible,
@@ -31,7 +32,7 @@ export default function RoomEditModal({
 }: {
   visible: boolean;
   onClose: () => void;
-  room: { roomName: string; roomStartDate: Timestamp; roomEndDate: Timestamp };
+  room: Room;
 }) {
   const [exRoomName, setExRoomName] = useState("");
   const [roomName, setRoomName] = useState("");
@@ -61,9 +62,9 @@ export default function RoomEditModal({
   }, [visible]);
 
   useEffect(() => {
-    if (room?.roomName) {
+    if (room?.room_name) {
       setExRoomName(room.room_name);
-      setRoomName(room.roomName);
+      setRoomName(room.room_name);
     }
 
     // todo : 초기값 설정 필요
@@ -83,9 +84,6 @@ export default function RoomEditModal({
   const handleEndConfirm = (date: Date) => {
     setRoomEndDate(date);
     setEndPickerVisible(false);
-    if (roomStartDate) {
-      setEndPickerVisible(false);
-    }
   };
 
   return (
@@ -147,7 +145,23 @@ export default function RoomEditModal({
           </View>
 
           {/* 수정하기 버튼 */}
-          <TouchableOpacity style={styles.confirmButton} onPress={onClose}>
+          <TouchableOpacity
+            style={styles.confirmButton}
+            onPress={() => {
+              if (!roomStartDate || !roomEndDate) {
+                console.error("❌ 날짜가 비어있습니다.");
+                return;
+              }
+              updateRoom({
+                ...room,
+                exRoomName: exRoomName,
+                room_name: roomName,
+                start_date: Timestamp.fromDate(roomStartDate),
+                end_date: Timestamp.fromDate(roomEndDate),
+              });
+              onClose();
+            }}
+          >
             <Text style={styles.confirmText}>완료</Text>
           </TouchableOpacity>
         </Animated.View>
