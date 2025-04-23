@@ -13,6 +13,24 @@ import { useEffect, useState } from "react";
 import { fetchRooms } from "@/entities/room/api/fetchRooms";
 import { eachDayOfInterval, format } from "date-fns";
 
+type MarkedDates = {
+  [date: string]: {
+    periods?: {
+      startingDay?: boolean;
+      endingDay?: boolean;
+      color: string;
+      textColor?: string;
+    }[];
+    marked?: boolean;
+    dotColor?: string;
+    color?: string;
+    textColor?: string;
+    startingDay?: boolean;
+    endingDay?: boolean;
+    room_id?: string;
+  };
+};
+
 export default function CalendarScreen() {
   const router = useRouter();
   const [markedDates, setMarkedDates] = useState<{ [date: string]: any }>({});
@@ -22,16 +40,16 @@ export default function CalendarScreen() {
       const rooms = await fetchRooms();
       const newMarked: { [key: string]: any } = {};
       const colors = [
-        "rgba(59, 130, 246, 0.3)",
-        "rgba(16, 185, 129, 0.3)",
-        "rgba(245, 158, 11, 0.3)",
-        "rgba(239, 68, 68, 0.3)",
-        "rgba(99, 102, 241, 0.3)",
-        "rgba(236, 72, 153, 0.3)",
-        "rgba(20, 184, 166, 0.3)",
-        "rgba(234, 179, 8, 0.3)",
-        "rgba(139, 92, 246, 0.3)",
-        "rgba(34, 211, 238, 0.3)",
+        "#3b82f6",
+        "#10b981",
+        "#f59e0b",
+        "#ef4444",
+        "#6366f1",
+        "#ec4899",
+        "#14b8a6",
+        "#eab308",
+        "#8b5cf6",
+        "#22d3ee",
       ];
 
       rooms.forEach((room, index) => {
@@ -96,13 +114,11 @@ export default function CalendarScreen() {
   return (
     <View style={styles.container}>
       <Calendar
-        markingType={"period"}
+        markingType={"multi-period"}
         onDayPress={handleDayPress}
         markedDates={markedDates}
         theme={{
-          selectedDayMarked: "true",
-          selectedDayBackgroundColor: "#3b82f6",
-          todayTextColor: "black",
+          todayTextColor: "#3b82f6",
         }}
       />
     </View>
@@ -110,5 +126,10 @@ export default function CalendarScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingTop: 60, paddingHorizontal: 20 },
+  container: {
+    paddingTop: 20,
+    paddingBottom: 40,
+    paddingHorizontal: 20,
+    backgroundColor: "white",
+  },
 });
