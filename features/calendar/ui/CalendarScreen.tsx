@@ -1,6 +1,8 @@
 /**
  * @yuxincxoi
  * * 캘린더 화면을 렌더링하는 컴포넌트입니다.
+ * 사용자가 날짜를 누르면, 해당 날짜가 포함된 방들의 리스트가 아래에 RoomCard 형태로 렌더링됩니다.
+ * 각 RoomCard를 클릭하면 해당 책방 상세 페이지로 이동합니다.
  *
  * @module CalendarScreen
  * @returns {JSX.Element} 캘린더가 포함된 View 컴포넌트
@@ -51,12 +53,14 @@ export default function CalendarScreen() {
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
   const [selectedRooms, setSelectedRooms] = useState<RoomwithId[]>([]);
 
+  // 방 데이터 로딩 및 markedDates 초기화
   useEffect(() => {
     const loadSchedules = async () => {
       const loadRooms = await fetchRooms();
       setRooms(loadRooms);
 
       const newMarked: MarkedDates = {};
+
       const colors = [
         "#3b82f6",
         "#10b981",
@@ -70,6 +74,7 @@ export default function CalendarScreen() {
         "#22d3ee",
       ];
 
+      // 캘린더에 각 방의 일정 표시
       loadRooms.forEach((room, index) => {
         const startDate = room.start_date.toDate();
         const endDate = room.end_date.toDate();
@@ -126,6 +131,7 @@ export default function CalendarScreen() {
 
   return (
     <View style={{ flex: 1 }}>
+      {/* 캘린더 */}
       <Calendar
         style={styles.container}
         markingType={"multi-period"}
@@ -135,6 +141,8 @@ export default function CalendarScreen() {
           todayTextColor: "#3b82f6",
         }}
       />
+
+      {/* 책방 리스트 */}
       <ScrollView contentContainerStyle={styles.roomList}>
         {selectedRooms.map((room) => (
           <TouchableOpacity
