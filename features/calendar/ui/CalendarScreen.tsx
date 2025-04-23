@@ -8,11 +8,18 @@
 
 import { useRouter } from "expo-router";
 import { Calendar } from "react-native-calendars";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import { fetchRooms } from "@/entities/room/api/fetchRooms";
-import { eachDayOfInterval, format } from "date-fns";
+import {
+  eachDayOfInterval,
+  format,
+  isWithinInterval,
+  startOfDay,
+  endOfDay,
+} from "date-fns";
 import { RoomwithId } from "@/entities/room/model/types";
+import RoomCard from "@/features/room/list/components/RoomCard";
 
 type MarkedDates = {
   [date: string]: {
@@ -36,6 +43,7 @@ export default function CalendarScreen() {
   const router = useRouter();
   const [rooms, setRooms] = useState<RoomwithId[]>([]);
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
+  const [selectedRooms, setSelectedRooms] = useState<RoomwithId[]>([]);
 
   useEffect(() => {
     const loadSchedules = async () => {
@@ -99,27 +107,21 @@ export default function CalendarScreen() {
 
   const handleDayPress = (day: { dateString: string }) => {
     const date = day.dateString;
-    const matched = markedDates[date];
-    if (!matched || !matched.room_id) return;
+    const clickedDate = new Date(date);
 
-    const room = rooms.find((r) => r.room_id === matched.room_id);
-    if (!room) return;
-
-    router.push({
-      pathname: "/room-detail/[id]",
-      params: {
-        id: room.room_id,
-        name: room.room_name,
-        status: room.status,
-        start: format(room.start_date.toDate(), "yyyy-MM-dd"),
-        end: format(room.end_date.toDate(), "yyyy-MM-dd"),
-      },
+    const filtered = rooms.filter((room) => {
+      const start = startOfDay(room.start_date.toDate());
+      const end = endOfDay(room.end_date.toDate());
+      return isWithinInterval(clickedDate, { start, end });
     });
+
+    setSelectedRooms(filtered);
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <Calendar
+        style={styles.container}
         markingType={"multi-period"}
         onDayPress={handleDayPress}
         markedDates={markedDates}
@@ -127,6 +129,25 @@ export default function CalendarScreen() {
           todayTextColor: "#3b82f6",
         }}
       />
+      {selectedRooms.map((room) => (
+        <TouchableOpacity
+          key={room.room_id}
+          onPress={() =>
+            router.push({
+              pathname: "/room-detail/[id]",
+              params: {
+                id: room.room_id,
+                name: room.room_name,
+                status: room.status,
+                start: format(room.start_date.toDate(), "yyyy-MM-dd"),
+                end: format(room.end_date.toDate(), "yyyy-MM-dd"),
+              },
+            })
+          }
+        >
+          <RoomCard room={room} isPinned={false} onTogglePin={() => {}} />
+        </TouchableOpacity>
+      ))}
     </View>
   );
 }
@@ -136,6 +157,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 40,
     paddingHorizontal: 20,
+    marginBottom: 40,
     backgroundColor: "white",
   },
 });
