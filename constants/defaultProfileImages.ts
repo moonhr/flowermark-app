@@ -7,5 +7,5 @@ export const DEFAULT_PROFILE_IMAGES = [
   require("../assets/profileImg/profile_6.png"),
   require("../assets/profileImg/profile_7.png"),
   require("../assets/profileImg/profile_8.png"),
-  require("../assets/profileImg/profile_9.png"),
+  // require("../assets/profileImg/profile_9.png"),
 ];
