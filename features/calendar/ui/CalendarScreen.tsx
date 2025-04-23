@@ -12,6 +12,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { fetchRooms } from "@/entities/room/api/fetchRooms";
 import { eachDayOfInterval, format } from "date-fns";
+import { RoomwithId } from "@/entities/room/model/types";
 
 type MarkedDates = {
   [date: string]: {
@@ -33,12 +34,15 @@ type MarkedDates = {
 
 export default function CalendarScreen() {
   const router = useRouter();
-  const [markedDates, setMarkedDates] = useState<{ [date: string]: any }>({});
+  const [rooms, setRooms] = useState<RoomwithId[]>([]);
+  const [markedDates, setMarkedDates] = useState<MarkedDates>({});
 
   useEffect(() => {
     const loadSchedules = async () => {
-      const rooms = await fetchRooms();
-      const newMarked: { [key: string]: any } = {};
+      const loadRooms = await fetchRooms();
+      setRooms(loadRooms);
+
+      const newMarked: MarkedDates = {};
       const colors = [
         "#3b82f6",
         "#10b981",
@@ -52,37 +56,31 @@ export default function CalendarScreen() {
         "#22d3ee",
       ];
 
-      rooms.forEach((room, index) => {
+      loadRooms.forEach((room, index) => {
         const startDate = room.start_date.toDate();
         const endDate = room.end_date.toDate();
         const color = colors[index % colors.length];
 
-        const startKey = format(startDate, "yyyy-MM-dd");
-        const endKey = format(endDate, "yyyy-MM-dd");
+        const allDates = eachDayOfInterval({ start: startDate, end: endDate });
 
-        newMarked[startKey] = {
-          startingDay: true,
-          color,
-          textColor: "white",
-        };
-
-        newMarked[endKey] = {
-          endingDay: true,
-          color,
-          textColor: "white",
-        };
-
-        const middleDates = eachDayOfInterval({
-          start: new Date(startDate.getTime() + 86400000),
-          end: new Date(endDate.getTime() - 86400000),
-        });
-
-        middleDates.forEach((date) => {
+        allDates.forEach((date, i) => {
           const key = format(date, "yyyy-MM-dd");
-          newMarked[key] = {
+          if (!newMarked[key]) {
+            newMarked[key] = {};
+          }
+          if (!newMarked[key].periods) {
+            newMarked[key].periods = [];
+          }
+          newMarked[key].periods.push({
+            startingDay: i === 0,
+            endingDay: i === allDates.length - 1,
             color,
             textColor: "white",
-          };
+          });
+
+          if (i === 0) {
+            newMarked[key].room_id = room.room_id;
+          }
         });
       });
 
@@ -91,7 +89,6 @@ export default function CalendarScreen() {
         ...newMarked[today],
         marked: true,
         dotColor: "#3b82f6",
-        activeOpacity: 0,
       };
 
       setMarkedDates(newMarked);
@@ -102,13 +99,22 @@ export default function CalendarScreen() {
 
   const handleDayPress = (day: { dateString: string }) => {
     const date = day.dateString;
-    const matchedRoom = Object.entries(markedDates).find(
-      ([key]) => key === date
-    );
+    const matched = markedDates[date];
+    if (!matched || !matched.room_id) return;
 
-    if (matchedRoom) {
-      router.push(`/room-detail/${matchedRoom[1].room_id}`);
-    }
+    const room = rooms.find((r) => r.room_id === matched.room_id);
+    if (!room) return;
+
+    router.push({
+      pathname: "/room-detail/[id]",
+      params: {
+        id: room.room_id,
+        name: room.room_name,
+        status: room.status,
+        start: format(room.start_date.toDate(), "yyyy-MM-dd"),
+        end: format(room.end_date.toDate(), "yyyy-MM-dd"),
+      },
+    });
   };
 
   return (
