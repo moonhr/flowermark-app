@@ -11,7 +11,9 @@ import { doc, updateDoc } from "firebase/firestore";
 import { User } from "../model/types";
 import { fetchCurrentUser } from "./fetchCurrentUser";
 
-export const updateUserImg = async (user: Pick<User, "profile_image">) => {
+export const updateUser = async (
+  user: Pick<User, "profile_image" | "nickname">
+) => {
   try {
     const currentUser = await fetchCurrentUser();
     const user_id = currentUser?.user_id;
@@ -23,6 +25,7 @@ export const updateUserImg = async (user: Pick<User, "profile_image">) => {
     // 현재 로그인된 사용자의 문서를 업데이트하여 profile_image 필드 갱신
     await updateDoc(doc(db, "users", user_id), {
       profile_image: user.profile_image,
+      nickname: user.nickname,
     });
   } catch (error) {
     console.error("프로필 이미지 업데이트 중 오류 발생:", error);

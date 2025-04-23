@@ -1,5 +1,4 @@
 import { DEFAULT_PROFILE_IMAGES } from "@/constants/defaultProfileImages";
-import { updateUserImg } from "@/entities/user/api/updateUserImg";
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -73,9 +72,6 @@ export default function ProfileImageSelector({
                 style={styles.saveButton}
                 onPress={() => {
                   onSelect(selectedImage);
-                  updateUserImg({
-                    profile_image: selectedImage,
-                  });
                 }}
               >
                 <Text style={styles.saveText}>저장</Text>

@@ -22,6 +22,7 @@ import {
 } from "react-native";
 import { User } from "@/entities/user/model/types";
 import ProfileImageSelector from "./ProfileImageSelector";
+import { updateUser } from "@/entities/user/api/updateUser";
 
 export default function MyPageEditModal({
   visible,
@@ -33,6 +34,7 @@ export default function MyPageEditModal({
   user: User | null;
 }) {
   const [nickname, setNickname] = useState("");
+  const [profileImg, setProfileImg] = useState("");
   const [profileImageSelectorVisible, setProfileImageSelectorVisible] =
     useState(false);
   // 슬라이드 애니메이션을 위한 translateY 값 (초기 위치는 아래쪽)
@@ -61,6 +63,12 @@ export default function MyPageEditModal({
     }
   }, [user]);
 
+  useEffect(() => {
+    if (user?.profile_image) {
+      setProfileImg(user.profile_image);
+    }
+  }, [user]);
+
   return (
     <Modal visible={visible} transparent animationType="none">
       <View style={styles.overlay}>
@@ -79,9 +87,14 @@ export default function MyPageEditModal({
           <TouchableOpacity
             onPress={() => setProfileImageSelectorVisible(true)}
           >
-            {user?.profile_image ? (
+            {profileImg ? (
               <Image
-                source={{ uri: user.profile_image }}
+                key={typeof profileImg === "string" ? profileImg : "static"}
+                source={
+                  typeof profileImg === "string"
+                    ? { uri: profileImg }
+                    : profileImg
+                }
                 style={styles.profileImage}
               />
             ) : (
@@ -100,7 +113,16 @@ export default function MyPageEditModal({
           <Text style={styles.account}>카카오 계정 연결됨</Text>
 
           {/* 수정하기 버튼 */}
-          <TouchableOpacity style={styles.confirmButton} onPress={onClose}>
+          <TouchableOpacity
+            style={styles.confirmButton}
+            onPress={() => {
+              onClose();
+              updateUser({
+                nickname: nickname,
+                profile_image: profileImg,
+              });
+            }}
+          >
             <Text style={styles.confirmText}>완료</Text>
           </TouchableOpacity>
 
@@ -119,7 +141,7 @@ export default function MyPageEditModal({
         <ProfileImageSelector
           onClose={() => setProfileImageSelectorVisible(false)}
           onSelect={(img) => {
-            console.log("선택된 이미지:", img);
+            setProfileImg(img);
             setProfileImageSelectorVisible(false);
           }}
           visible={profileImageSelectorVisible}
@@ -157,7 +179,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: "#a1a1aa",
+    // backgroundColor: "#a1a1aa",
     alignSelf: "center",
     marginTop: 30,
   },
