@@ -1,4 +1,5 @@
 import { DEFAULT_PROFILE_IMAGES } from "@/constants/defaultProfileImages";
+import { updateUserImg } from "@/entities/user/api/updateUserImg";
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -70,7 +71,12 @@ export default function ProfileImageSelector({
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.saveButton}
-                onPress={() => onSelect(selectedImage)}
+                onPress={() => {
+                  onSelect(selectedImage);
+                  updateUserImg({
+                    profile_image: selectedImage,
+                  });
+                }}
               >
                 <Text style={styles.saveText}>저장</Text>
               </TouchableOpacity>
