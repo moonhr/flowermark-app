@@ -21,6 +21,7 @@ import {
   Image,
 } from "react-native";
 import { User } from "@/entities/user/model/types";
+import ProfileImageSelector from "./ProfileImageSelector";
 
 export default function MyPageEditModal({
   visible,
@@ -32,6 +33,8 @@ export default function MyPageEditModal({
   user: User | null;
 }) {
   const [nickname, setNickname] = useState("");
+  const [profileImageSelectorVisible, setProfileImageSelectorVisible] =
+    useState(false);
   // 슬라이드 애니메이션을 위한 translateY 값 (초기 위치는 아래쪽)
   const translateY = useRef(new Animated.Value(500)).current;
 
@@ -73,14 +76,18 @@ export default function MyPageEditModal({
           </TouchableOpacity>
 
           {/* 프로필 이미지 변경 */}
-          {user?.profile_image ? (
-            <Image
-              source={{ uri: user.profile_image }}
-              style={styles.profileImage}
-            />
-          ) : (
-            <View style={styles.profileImage} />
-          )}
+          <TouchableOpacity
+            onPress={() => setProfileImageSelectorVisible(true)}
+          >
+            {user?.profile_image ? (
+              <Image
+                source={{ uri: user.profile_image }}
+                style={styles.profileImage}
+              />
+            ) : (
+              <View style={styles.profileImage} />
+            )}
+          </TouchableOpacity>
 
           {/* 닉네임 변경 */}
           <TextInput
@@ -108,6 +115,15 @@ export default function MyPageEditModal({
           </TouchableOpacity>
         </Animated.View>
       </View>
+      {profileImageSelectorVisible && (
+        <ProfileImageSelector
+          onClose={() => setProfileImageSelectorVisible(false)}
+          onSelect={(img) => {
+            console.log("선택된 이미지:", img);
+            setProfileImageSelectorVisible(false);
+          }}
+        />
+      )}
     </Modal>
   );
 }
