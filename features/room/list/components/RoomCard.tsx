@@ -11,7 +11,7 @@
  */
 
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Room } from "@/entities/room/model/types";
+import { RoomwithId } from "@/entities/room/model/types";
 import { formatDate } from "@/shared/lib/formatDate";
 
 export default function RoomCard({
@@ -19,7 +19,7 @@ export default function RoomCard({
   isPinned,
   onTogglePin,
 }: {
-  room: Room;
+  room: RoomwithId;
   isPinned?: boolean;
   onTogglePin: (id: string) => void;
 }) {
