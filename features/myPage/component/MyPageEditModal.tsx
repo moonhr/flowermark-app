@@ -122,6 +122,7 @@ export default function MyPageEditModal({
             console.log("선택된 이미지:", img);
             setProfileImageSelectorVisible(false);
           }}
+          visible={profileImageSelectorVisible}
         />
       )}
     </Modal>
