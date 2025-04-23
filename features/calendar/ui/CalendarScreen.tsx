@@ -8,7 +8,13 @@
 
 import { useRouter } from "expo-router";
 import { Calendar } from "react-native-calendars";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { useEffect, useState } from "react";
 import { fetchRooms } from "@/entities/room/api/fetchRooms";
 import {
@@ -119,7 +125,7 @@ export default function CalendarScreen() {
   };
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Calendar
         style={styles.container}
         markingType={"multi-period"}
@@ -129,25 +135,27 @@ export default function CalendarScreen() {
           todayTextColor: "#3b82f6",
         }}
       />
-      {selectedRooms.map((room) => (
-        <TouchableOpacity
-          key={room.room_id}
-          onPress={() =>
-            router.push({
-              pathname: "/room-detail/[id]",
-              params: {
-                id: room.room_id,
-                name: room.room_name,
-                status: room.status,
-                start: format(room.start_date.toDate(), "yyyy-MM-dd"),
-                end: format(room.end_date.toDate(), "yyyy-MM-dd"),
-              },
-            })
-          }
-        >
-          <RoomCard room={room} isPinned={false} onTogglePin={() => {}} />
-        </TouchableOpacity>
-      ))}
+      <ScrollView contentContainerStyle={styles.roomList}>
+        {selectedRooms.map((room) => (
+          <TouchableOpacity
+            key={room.room_id}
+            onPress={() =>
+              router.push({
+                pathname: "/room-detail/[id]",
+                params: {
+                  id: room.room_id,
+                  name: room.room_name,
+                  status: room.status,
+                  start: format(room.start_date.toDate(), "yyyy-MM-dd"),
+                  end: format(room.end_date.toDate(), "yyyy-MM-dd"),
+                },
+              })
+            }
+          >
+            <RoomCard room={room} isPinned={false} onTogglePin={() => {}} />
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
     </View>
   );
 }
@@ -159,5 +167,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 40,
     backgroundColor: "white",
+  },
+  roomList: {
+    paddingBottom: 24,
   },
 });
