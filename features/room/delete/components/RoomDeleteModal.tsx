@@ -14,11 +14,13 @@ export default function RoomDeleteModal({
   reason,
   onChangeReason,
   onClose,
+  onSubmit,
 }: {
   visible: boolean;
   reason: string;
   onChangeReason: (text: string) => void;
   onClose: () => void;
+  onSubmit: (reason: string) => void;
 }) {
   return (
     <Modal visible={visible} transparent animationType="slide">
@@ -45,8 +47,7 @@ export default function RoomDeleteModal({
             ]}
             disabled={!reason.trim()}
             onPress={() => {
-              // todo : 알림 전송 및 상태 비활성화 로직으로 연결 예정
-              console.log(`[삭제 요청] ${reason}`);
+              onSubmit(reason);
               onClose();
             }}
           >

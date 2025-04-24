@@ -26,6 +26,7 @@ import BookScheduleCard from "./BookScheduleCard";
 import RoomEditModal from "../../update/components/RoomEditModal";
 import RoomDeleteModal from "../../delete/components/RoomDeleteModal";
 import { Timestamp } from "firebase/firestore";
+import { deleteRoom } from "@/entities/room/api/deleteRoom";
 
 type RoomInfoModalProps = {
   visible: boolean;
@@ -39,6 +40,7 @@ export default function RoomInfoModal({
   isHost,
 }: RoomInfoModalProps) {
   const { id, name, status, start, end } = useLocalSearchParams();
+  const roomId = id as string;
   const roomName = name as string;
   const roomStatus = status as string;
   const roomStartDate = start as string;
@@ -149,6 +151,7 @@ export default function RoomInfoModal({
               reason={deleteReason}
               onChangeReason={setDeleteReason}
               onClose={() => setDeleteReasonVisible(false)}
+              onSubmit={(reason) => deleteRoom(roomId, reason)}
             />
           </ScrollView>
         </Animated.View>
