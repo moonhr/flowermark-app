@@ -36,10 +36,22 @@ export default function RoomDeleteModal({
             value={reason}
             onChangeText={onChangeReason}
           />
-          <Button
-            title="삭제 요청하기"
-            onPress={onClose} // TODO: 실제 삭제 로직으로 교체 예정
-          />
+          <TouchableOpacity
+            style={[
+              styles.requestButton,
+              reason.trim()
+                ? styles.requestButtonActive
+                : styles.requestButtonDisabled,
+            ]}
+            disabled={!reason.trim()}
+            onPress={() => {
+              // todo : 알림 전송 및 상태 비활성화 로직으로 연결 예정
+              console.log(`[삭제 요청] ${reason}`);
+              onClose();
+            }}
+          >
+            <Text style={styles.requestButtonText}>삭제 요청하기</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -83,5 +95,22 @@ const styles = StyleSheet.create({
   closeText: {
     fontSize: 24,
     color: "#333",
+  },
+  requestButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginTop: 16,
+    alignItems: "center",
+  },
+  requestButtonActive: {
+    backgroundColor: "#007AFF",
+  },
+  requestButtonDisabled: {
+    backgroundColor: "#ccc",
+  },
+  requestButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
