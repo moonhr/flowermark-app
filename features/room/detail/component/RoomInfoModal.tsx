@@ -24,6 +24,7 @@ import { useState, useEffect, useRef } from "react";
 import UserIcon from "./UserIcon";
 import BookScheduleCard from "./BookScheduleCard";
 import RoomEditModal from "../../update/components/RoomEditModal";
+import RoomDeleteModal from "../../delete/components/RoomDeleteModal";
 import { Timestamp } from "firebase/firestore";
 
 type RoomInfoModalProps = {
@@ -43,6 +44,8 @@ export default function RoomInfoModal({
   const roomStartDate = start as string;
   const roomEndDate = end as string;
   const [editVisible, setEditVisible] = useState(false);
+  const [deleteReasonVisible, setDeleteReasonVisible] = useState(false);
+  const [deleteReason, setDeleteReason] = useState("");
 
   // 모달 슬라이드 애니메이션 초기값 설정
   const translateX = useRef(new Animated.Value(500)).current;
@@ -109,7 +112,10 @@ export default function RoomInfoModal({
 
             {/* 책 교환 일정 수정, 방 삭제 요청하기 버튼 */}
             <Button title="책 교환 일정 수정 요청하기" onPress={() => {}} />
-            <Button title="방 삭제 및 책 회수 요청하기" onPress={() => {}} />
+            <Button
+              title="방 삭제 및 책 회수 요청하기"
+              onPress={() => setDeleteReasonVisible(true)}
+            />
 
             {/* 방 정보 수정, 삭제 버튼 - 방장일 경우 표시 */}
             {isHost && (
@@ -136,6 +142,13 @@ export default function RoomInfoModal({
                 start_date: Timestamp.fromDate(new Date(roomStartDate)),
                 end_date: Timestamp.fromDate(new Date(roomEndDate)),
               }}
+            />
+
+            <RoomDeleteModal
+              visible={deleteReasonVisible}
+              reason={deleteReason}
+              onChangeReason={setDeleteReason}
+              onClose={() => setDeleteReasonVisible(false)}
             />
           </ScrollView>
         </Animated.View>
